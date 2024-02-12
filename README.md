@@ -78,7 +78,7 @@ Você deverá criar um fork deste projeto, e desenvolver em cima do seu fork. Us
 ## **FAQ**
 
 *Como devo fazer a entrega do meu desafio?*
-- Envie o link do seu repositório de código particular para contato@akasoft.com.br com o assunto: "AKASOFT - DESAFIO FULLSTACK <SEU NOME>"
+- Envie o link do seu repositório de código particular para contato@akasoft.com.br com o assunto: "AKASOFT - DESAFIO FULLSTACK - **:SEU NOME:**"
 
 *Se eu tiver alguma dúvida?*
 - Entre em contato com nosso time ou pelo contato@akasoft.com.br
