@@ -42,6 +42,7 @@ Você deverá criar um fork deste projeto, e desenvolver em cima do seu fork. Us
   - Cálculo de médias, máximas e mínimas.
 - Serviço de background que verifica a cotação do dólar a cada minuto e registrar as informações no banco de dados.
 - Utilização de criptografia para senhas.
+- Documentação de sua API utilizando OpenAPI 3.0+
 
 **Tecnologias**:
 
