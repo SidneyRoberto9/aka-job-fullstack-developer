@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  database:
+    image: postgres
+    container_name: akasoft-database
+    restart: always
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER=akasoft
+      - POSTGRES_PASSWORD=akasoft
+      - POSTGRES_DB=akasoft_db
+    volumes:
+      - pgdata:/data/postgres
+
+volumes:
+  pgdata:
+    driver: local
