@@ -28,8 +28,9 @@ export async function session(request: FastifyRequest, reply: FastifyReply) {
       },
     });
 
-    return reply.status(200).send({ token });
+    return reply.status(200).send({ user, token });
   } catch (error) {
+    console.log(error);
     if (error instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: error.message });
     }
