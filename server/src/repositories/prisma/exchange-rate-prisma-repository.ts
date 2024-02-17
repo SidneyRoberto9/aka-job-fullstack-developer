@@ -2,12 +2,37 @@ import { Prisma } from '@prisma/client';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
 import { prisma } from '@/lib/prisma';
 
-export class PrismExchangeRateRepository implements ExchangeRateRepository {
+export class PrismaExchangeRateRepository implements ExchangeRateRepository {
   async save(data: Prisma.ExchangeRateCreateInput) {
     const user = await prisma.exchangeRate.create({
       data,
     });
 
     return user;
+  }
+
+  async findMostRecent() {
+    const exchangeRate = await prisma.exchangeRate.findFirst({
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+
+    return exchangeRate;
+  }
+
+  async findByCurrentDay() {
+    const actualDate = new Date();
+
+    const exchangeRate = await prisma.exchangeRate.findMany({
+      where: {
+        created_at: {
+          gte: new Date(actualDate.setHours(0, 0, 0, 0)),
+          lt: new Date(actualDate.setHours(23, 59, 59, 999)),
+        },
+      },
+    });
+
+    return exchangeRate;
   }
 }
