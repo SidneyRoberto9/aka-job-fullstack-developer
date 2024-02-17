@@ -11,5 +11,5 @@ export const metadata: Metadata = {
 export default async function Layout({ children }: PropsWithChildren) {
   await isNotAuthenticateRedirect();
 
-  return <div className="min-h-screen flex items-center justify-center">{children}</div>;
+  return <div className="min-h-screen flex items-start justify-center">{children}</div>;
 }
