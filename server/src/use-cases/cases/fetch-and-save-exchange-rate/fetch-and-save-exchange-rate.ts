@@ -1,7 +1,13 @@
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import dayjs from 'dayjs';
 import axios, { AxiosError } from 'axios';
 
 import { ExternalFetchError } from '@/use-cases/errors/extrenal-fetch-error';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export interface FetchFromExternalApiResponse {
   USDBRL: IExchangeData;
@@ -28,6 +34,19 @@ export class FetchAndSaveExchangeRateUseCase {
 
   async execute() {
     try {
+      const now = dayjs().tz('America/Sao_Paulo');
+      const currentHour = now.hour();
+      const currentDay = now.day();
+
+      if (currentDay === 0 || currentDay === 6) {
+        console.log('O mercado está fechado.');
+        return;
+      }
+      if (currentHour < 9 || currentHour >= 17) {
+        console.log('O mercado está fechado.');
+        return;
+      }
+
       const { data } = await axios.get<FetchFromExternalApiResponse>(exchangeRateApiUrl);
 
       const valueAvgFromAskAndBid =
