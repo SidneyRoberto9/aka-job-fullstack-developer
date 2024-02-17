@@ -13,8 +13,6 @@ export async function profile(request: FastifyRequest, reply: FastifyReply) {
       userId: request.user.sign.sub,
     });
 
-    console.log(user);
-
     return reply.status(200).send({ user });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {

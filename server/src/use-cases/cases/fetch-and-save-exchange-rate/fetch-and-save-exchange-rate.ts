@@ -23,6 +23,7 @@ export class FetchAndSaveExchangeRateUseCase {
         app.log.info('The stock exchange is closed.');
         return;
       }
+
       if (hour < 9 || hour >= 17) {
         app.log.info('The stock exchange is closed.');
         return;
@@ -30,8 +31,7 @@ export class FetchAndSaveExchangeRateUseCase {
 
       const { data } = await axios.get<FetchFromExternalApiResponse>(exchangeRateApiUrl);
 
-      const valueAvgFromAskAndBid =
-        (parseFloat(data.USDBRL.high) + parseFloat(data.USDBRL.low)) / 2;
+      const valueAvgFromAskAndBid = (parseFloat(data.USDBRL.ask) + parseFloat(data.USDBRL.bid)) / 2;
 
       await this.exchangeRateRepository.save({
         ask: parseFloat(data.USDBRL.ask),
