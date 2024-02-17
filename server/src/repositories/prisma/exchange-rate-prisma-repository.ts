@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
 import { prisma } from '@/lib/prisma';
+import { Pagination } from '@/@Types/pagination';
 
 export class PrismaExchangeRateRepository implements ExchangeRateRepository {
   async save(data: Prisma.ExchangeRateCreateInput) {
@@ -34,5 +35,28 @@ export class PrismaExchangeRateRepository implements ExchangeRateRepository {
     });
 
     return exchangeRate;
+  }
+
+  async fetchExchangeRate({ page, date }: Pagination) {
+    if (date === '') {
+      return await prisma.exchangeRate.findMany({
+        skip: (page - 1) * 10,
+        take: 10,
+      });
+    } else {
+      return await prisma.exchangeRate.findMany({
+        skip: (page - 1) * 10,
+        take: 10,
+        where: {
+          created_at: {
+            equals: date,
+          },
+        },
+      });
+    }
+  }
+
+  async count() {
+    return await prisma.exchangeRate.count();
   }
 }
