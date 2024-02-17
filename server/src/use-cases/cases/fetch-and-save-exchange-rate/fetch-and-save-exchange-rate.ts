@@ -1,6 +1,7 @@
-import { FastifyRequest, FastifyInstance } from 'fastify';
+import { FastifyInstance } from 'fastify';
 import axios, { AxiosError } from 'axios';
 
+import { convertActualDateToLocale } from '@/util/convert-actual-date-to-locale';
 import { ExternalFetchError } from '@/use-cases/errors/extrenal-fetch-error';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
 import { dayjsInstance } from '@/lib/dayjs';
@@ -14,14 +15,15 @@ export class FetchAndSaveExchangeRateUseCase {
   async execute(app: FastifyInstance) {
     try {
       const now = dayjsInstance().tz('America/Sao_Paulo');
-      const currentHour = now.hour();
       const currentDay = now.day();
+
+      const { hour, iso } = convertActualDateToLocale();
 
       if (currentDay === 0 || currentDay === 6) {
         app.log.info('The stock exchange is closed.');
         return;
       }
-      if (currentHour < 9 || currentHour >= 17) {
+      if (hour < 9 || hour >= 17) {
         app.log.info('The stock exchange is closed.');
         return;
       }
@@ -31,16 +33,14 @@ export class FetchAndSaveExchangeRateUseCase {
       const valueAvgFromAskAndBid =
         (parseFloat(data.USDBRL.high) + parseFloat(data.USDBRL.low)) / 2;
 
-      const actualDate = dayjsInstance().second(0).millisecond(0).toDate();
-
       await this.exchangeRateRepository.save({
         ask: parseFloat(data.USDBRL.ask),
         bid: parseFloat(data.USDBRL.bid),
         high: parseFloat(data.USDBRL.high),
         low: parseFloat(data.USDBRL.low),
         value: Number(valueAvgFromAskAndBid.toFixed(4)),
-        created_at: actualDate,
-        updated_at: actualDate,
+        created_at: iso,
+        updated_at: iso,
       });
     } catch (error) {
       if (error instanceof AxiosError) {

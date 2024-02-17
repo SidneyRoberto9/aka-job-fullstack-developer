@@ -42,11 +42,17 @@ export class PrismaExchangeRateRepository implements ExchangeRateRepository {
       return await prisma.exchangeRate.findMany({
         skip: (page - 1) * 10,
         take: 10,
+        orderBy: {
+          created_at: 'desc',
+        },
       });
     } else {
       return await prisma.exchangeRate.findMany({
         skip: (page - 1) * 10,
         take: 10,
+        orderBy: {
+          created_at: 'desc',
+        },
         where: {
           created_at: {
             equals: date,
