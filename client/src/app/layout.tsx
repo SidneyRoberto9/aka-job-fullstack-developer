@@ -6,10 +6,13 @@ import { PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import Favicon from '/public/favicon.ico';
 
+import { NextAuthSessionProvider } from '@/components/Providers';
+import { Toaster } from '@/components/ui/sonner';
+
 const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '500', '700'] });
 
 export const metadata: Metadata = {
-  title: 'AKASOFT - Cotação do Dólar',
+  title: 'Sign In | AKASOFT - Cotação do Dólar',
   description: 'Desafio técnico para a vaga de desenvolvedor fullstack na AKASOFT',
   icons: [{ rel: 'icon', url: Favicon.src }],
 };
@@ -17,7 +20,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+        <Toaster />
+      </body>
     </html>
   );
 }
