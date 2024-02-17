@@ -1,31 +1,9 @@
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import dayjs from 'dayjs';
 import axios, { AxiosError } from 'axios';
 
 import { ExternalFetchError } from '@/use-cases/errors/extrenal-fetch-error';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-export interface FetchFromExternalApiResponse {
-  USDBRL: IExchangeData;
-}
-
-export interface IExchangeData {
-  code: string;
-  codein: string;
-  name: string;
-  high: string;
-  low: string;
-  varBid: string;
-  pctChange: string;
-  bid: string;
-  ask: string;
-  timestamp: string;
-  create_date: Date;
-}
+import { dayjsInstance } from '@/lib/dayjs';
+import { FetchFromExternalApiResponse } from '@/@Types/external-api';
 
 const exchangeRateApiUrl = 'https://economia.awesomeapi.com.br/json/last/USD-BRL';
 
@@ -34,7 +12,7 @@ export class FetchAndSaveExchangeRateUseCase {
 
   async execute() {
     try {
-      const now = dayjs().tz('America/Sao_Paulo');
+      const now = dayjsInstance().tz('America/Sao_Paulo');
       const currentHour = now.hour();
       const currentDay = now.day();
 
@@ -52,12 +30,16 @@ export class FetchAndSaveExchangeRateUseCase {
       const valueAvgFromAskAndBid =
         (parseFloat(data.USDBRL.high) + parseFloat(data.USDBRL.low)) / 2;
 
+      const actualDate = dayjsInstance().second(0).millisecond(0).toDate();
+
       await this.exchangeRateRepository.save({
         ask: parseFloat(data.USDBRL.ask),
         bid: parseFloat(data.USDBRL.bid),
         high: parseFloat(data.USDBRL.high),
         low: parseFloat(data.USDBRL.low),
         value: Number(valueAvgFromAskAndBid.toFixed(4)),
+        created_at: actualDate,
+        updated_at: actualDate,
       });
     } catch (error) {
       if (error instanceof AxiosError) {
