@@ -1,9 +1,9 @@
 'use client';
 
-import { z } from 'zod';
+import { z, set } from 'zod';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 
@@ -46,9 +46,11 @@ export function RegisterForm() {
     resolver: zodResolver(schema),
   });
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const onSubmit = async (data: SchemaRegisterForm) => {
+    setIsLoading(true);
     try {
       await SignUpRequest(data);
 
@@ -57,8 +59,10 @@ export function RegisterForm() {
         dismissible: true,
       });
 
+      setIsLoading(false);
       router.push('/');
     } catch (error) {
+      setIsLoading(false);
       if (error instanceof AxiosError) {
         setValue('password', '');
         toast.error(error.response?.data.message, {
@@ -97,7 +101,11 @@ export function RegisterForm() {
         </div>
       </div>
 
-      <Button type="submit" className="text-center w-full bg-black text-xl font-extralight">
+      <Button
+        type="submit"
+        disabled={isLoading}
+        className="text-center w-full bg-black text-xl font-extralight"
+      >
         Sign Up
       </Button>
     </form>

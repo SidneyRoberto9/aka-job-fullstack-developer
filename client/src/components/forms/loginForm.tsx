@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
@@ -20,12 +20,14 @@ const schema = z.object({
 type SchemaLoginForm = z.infer<typeof schema>;
 
 export function LoginForm() {
-  const router = useRouter();
   const { register, handleSubmit, setValue } = useForm<SchemaLoginForm>({
     resolver: zodResolver(schema),
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const onSubmit = async (formData: SchemaLoginForm) => {
+    setIsLoading(true);
     const result = await signIn('credentials', {
       email: formData.email,
       password: formData.password,
@@ -33,6 +35,7 @@ export function LoginForm() {
     });
 
     if (result?.error) {
+      setIsLoading(false);
       toast.error('Invalid credentials. Please try again.', {
         position: 'bottom-center',
         dismissible: true,
@@ -41,6 +44,7 @@ export function LoginForm() {
       return;
     }
 
+    setIsLoading(false);
     toast.success('Logged in successfully', {
       position: 'bottom-center',
       dismissible: true,
@@ -63,7 +67,11 @@ export function LoginForm() {
         </div>
       </div>
 
-      <Button type="submit" className="text-center w-full bg-black text-xl font-extralight">
+      <Button
+        type="submit"
+        disabled={isLoading}
+        className="text-center w-full bg-black text-xl font-extralight"
+      >
         Sign In
       </Button>
     </form>
