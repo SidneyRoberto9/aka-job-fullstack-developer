@@ -6,7 +6,7 @@ import { PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import Favicon from '/public/favicon.ico';
 
-const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
+const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '500', '700'] });
 
 export const metadata: Metadata = {
   title: 'AKASOFT - Cotação do Dólar',
