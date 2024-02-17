@@ -7,7 +7,9 @@ import { usersRoutes } from '@/http/controller/users/routes';
 import { exchangeRateRoutes } from '@/http/controller/exchange-rate/routes';
 import { env } from '@/env';
 
-export const app = fastify();
+export const app = fastify({
+  logger: true,
+});
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
@@ -20,7 +22,7 @@ app.register(fastifyCron, {
   jobs: [
     {
       cronTime: '*/1 * * * *',
-      onTick: () => makeFetchAndSaveExchangeRateUseCase().execute(),
+      onTick: () => makeFetchAndSaveExchangeRateUseCase().execute(app),
     },
   ],
 });

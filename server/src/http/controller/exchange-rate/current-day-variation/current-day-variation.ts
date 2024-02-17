@@ -4,6 +4,8 @@ import { makeGetVariationExchangeRateUseCase } from '@/use-cases/factories/make-
 import { NotFoundError } from '@/use-cases/errors/not-found-error';
 
 export async function currentDayVariation(request: FastifyRequest, reply: FastifyReply) {
+  request.log.info('GET /exchange-rate/variation');
+
   try {
     const getVariationInCurrentDayUseCase = makeGetVariationExchangeRateUseCase();
 

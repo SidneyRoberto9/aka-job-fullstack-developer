@@ -9,6 +9,8 @@ const listQuerySchema = z.object({
 });
 
 export async function list(request: FastifyRequest, reply: FastifyReply) {
+  request.log.info('GET /exchange-rate');
+
   const { page, date } = listQuerySchema.parse(request.query);
 
   const fetchExchangeRateUseCase = makeFetchExchangeRateUseCase();

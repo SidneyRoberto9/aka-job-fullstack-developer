@@ -1,3 +1,4 @@
+import { FastifyRequest, FastifyInstance } from 'fastify';
 import axios, { AxiosError } from 'axios';
 
 import { ExternalFetchError } from '@/use-cases/errors/extrenal-fetch-error';
@@ -10,18 +11,18 @@ const exchangeRateApiUrl = 'https://economia.awesomeapi.com.br/json/last/USD-BRL
 export class FetchAndSaveExchangeRateUseCase {
   constructor(private exchangeRateRepository: ExchangeRateRepository) {}
 
-  async execute() {
+  async execute(app: FastifyInstance) {
     try {
       const now = dayjsInstance().tz('America/Sao_Paulo');
       const currentHour = now.hour();
       const currentDay = now.day();
 
       if (currentDay === 0 || currentDay === 6) {
-        console.log('O mercado está fechado.');
+        app.log.info('The stock exchange is closed.');
         return;
       }
       if (currentHour < 9 || currentHour >= 17) {
-        console.log('O mercado está fechado.');
+        app.log.info('The stock exchange is closed.');
         return;
       }
 

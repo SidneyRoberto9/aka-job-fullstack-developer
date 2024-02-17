@@ -10,6 +10,8 @@ const authenticateBodySchema = z.object({
 });
 
 export async function session(request: FastifyRequest, reply: FastifyReply) {
+  request.log.info('POST /session');
+
   const { email, password } = authenticateBodySchema.parse(request.body);
 
   try {

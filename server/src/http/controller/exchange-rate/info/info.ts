@@ -4,6 +4,8 @@ import { makeGetInfoExchangeRateUseCase } from '@/use-cases/factories/make-get-i
 import { NotFoundError } from '@/use-cases/errors/not-found-error';
 
 export async function info(request: FastifyRequest, reply: FastifyReply) {
+  request.log.info('GET /exchange-rate/info');
+
   try {
     const getInfoExchangeRateUseCase = makeGetInfoExchangeRateUseCase();
 
