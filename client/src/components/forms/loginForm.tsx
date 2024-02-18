@@ -48,6 +48,7 @@ export function LoginForm() {
     toast.success('Logged in successfully', {
       position: 'bottom-center',
       dismissible: true,
+      duration: 2000,
     });
 
     router.push('/home');
