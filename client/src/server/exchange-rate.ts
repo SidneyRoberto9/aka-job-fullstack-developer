@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import { api } from '@/lib/axios';
-import { ExchangeRate } from '@/@Types/exchange-rate';
+import { ExchangeRateInfo, ExchangeRate } from '@/@Types/exchange-rate';
 
 export async function LoadExchangeRateVariation(token: string): Promise<ExchangeRate[] | null> {
   try {
@@ -21,7 +21,7 @@ export async function LoadExchangeRateVariation(token: string): Promise<Exchange
   return null;
 }
 
-export async function LoadExchangeRateInfo(token: string): Promise<ExchangeRate | null> {
+export async function LoadExchangeRateInfo(token: string): Promise<ExchangeRateInfo | null> {
   try {
     const { data } = await api.get('/exchange-rate/info', {
       headers: {
