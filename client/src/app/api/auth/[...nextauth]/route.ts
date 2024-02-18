@@ -11,11 +11,10 @@ const nextAuthOptions: NextAuthOptions = {
         email: { label: 'email', type: 'text' },
         password: { label: 'password', type: 'password' },
       },
-
       async authorize(credentials, req) {
         const { data } = await api.post('/session', credentials);
 
-        if (data && data.user) {
+        if (data && data.token) {
           return data;
         }
 
@@ -25,6 +24,10 @@ const nextAuthOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: '/',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 60 * 15,
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
