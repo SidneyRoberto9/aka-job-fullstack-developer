@@ -19,3 +19,5 @@ export interface ExchangeRateList {
   hasNext: boolean;
   data: ExchangeRate[];
 }
+
+export type ICurrency = 'USD' | 'EUR' | 'JPY';

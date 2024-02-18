@@ -33,10 +33,11 @@ import { PopoverTrigger, PopoverContent, Popover } from '@/components/ui/popover
 import { Input } from '@/components/ui/input';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
-import { ExchangeRateList } from '@/@Types/exchange-rate';
+import { ICurrency, ExchangeRateList } from '@/@Types/exchange-rate';
 
 interface DataTableProps {
   token: string;
+  currency: ICurrency;
 }
 
 interface filterDate {
@@ -63,10 +64,16 @@ const filterSchema = z.object({
     }),
 });
 
-async function getData(pageIndex: number, token: string, filterDate: DateRange) {
+async function getData(
+  pageIndex: number,
+  currency: ICurrency,
+  token: string,
+  filterDate: DateRange,
+) {
   const { data } = await api.post(
     '/exchange-rate',
     {
+      currency: currency,
       page: pageIndex,
       from: filterDate.from,
       to: filterDate.to,
@@ -81,7 +88,7 @@ async function getData(pageIndex: number, token: string, filterDate: DateRange) 
   return data as ExchangeRateList;
 }
 
-export function DataTable({ token }: DataTableProps) {
+export function DataTable({ token, currency }: DataTableProps) {
   const currentDate = new Date();
   const currentDatePlus3Days = addDays(currentDate, 3);
 
@@ -114,8 +121,8 @@ export function DataTable({ token }: DataTableProps) {
   });
 
   const { data, isLoading } = useQuery<ExchangeRateList>({
-    queryKey: ['exchange-list', pageIndex, filterDate.from, filterDate.to],
-    queryFn: () => getData(pageIndex, token, filterDate),
+    queryKey: ['exchange-list', currency, pageIndex, filterDate.from, filterDate.to],
+    queryFn: () => getData(pageIndex, currency, token, filterDate),
     gcTime: 1000 * 60 * 1,
     initialData: {} as ExchangeRateList,
   });

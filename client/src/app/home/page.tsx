@@ -1,23 +1,35 @@
 import { Fragment } from 'react';
 import { getServerSession } from 'next-auth';
 
-import { LoadExchangeRateVariation, LoadExchangeRateInfo } from '@/server/exchange-rate';
+import { FetchExchangeRateVariation } from '@/server/fetch-exchange-rate-variation';
+import { FetchExchangeRateInfo } from '@/server/fetch-exchange-rate-info';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { Widget } from '@/components/home/Widget';
 import { DataTable } from '@/components/home/Table';
 import { Header } from '@/components/home/Header';
 import { Chart } from '@/components/home/Chart';
 import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { ICurrency } from '@/@Types/exchange-rate';
 
-export default async function Page() {
+export const revalidate = 300;
+
+interface PageProps {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export default async function Page({ params, searchParams }: PageProps) {
   const session = await getServerSession(nextAuthOptions);
 
   if (!session) {
     return null;
   }
 
-  const exchangeRateVariation = await LoadExchangeRateVariation(session.token);
-  const exchangeRateInfo = await LoadExchangeRateInfo(session.token);
+  let currency = searchParams?.currency as ICurrency;
+  currency = currency == undefined ? 'USD' : currency;
+
+  const exchangeRateVariation = await FetchExchangeRateVariation(session.token, currency);
+  const exchangeRateInfo = await FetchExchangeRateInfo(session.token, currency);
 
   return (
     <article className="w-full max-w-7xl overflow-hidden">
@@ -32,24 +44,30 @@ export default async function Page() {
             {exchangeRateVariation && <Chart variation={exchangeRateVariation} />}
             {exchangeRateInfo && (
               <div className="w-full flex flex-col sm:w-1/4">
-                <Widget name="Average" value={exchangeRateInfo.avg.toFixed(4)} />
-                <Widget name="Max" value={exchangeRateInfo.max.toFixed(4)} />
-                <Widget name="Min" value={exchangeRateInfo.min.toFixed(4)} />
+                <Widget
+                  name="Average"
+                  value={exchangeRateInfo.avg.toFixed(4)}
+                  currency={currency}
+                />
+                <Widget name="Max" value={exchangeRateInfo.max.toFixed(4)} currency={currency} />
+                <Widget name="Min" value={exchangeRateInfo.min.toFixed(4)} currency={currency} />
               </div>
             )}
           </section>
 
           <section className="w-full my-2">
-            <DataTable token={session.token} />
+            <DataTable token={session.token} currency={currency} />
           </section>
         </Fragment>
       ) : (
-        <LoadingSpinner />
+        <section className="h-fit">
+          <LoadingSpinner />
+        </section>
       )}
 
       <section className="w-full select-none">
         <span className="flex items-center justify-center m-4">
-          {`© ${new Date().getFullYear()} Sidney Roberto`}{' '}
+          {`© ${new Date().getFullYear()} Sidney Roberto`}
         </span>
       </section>
     </article>

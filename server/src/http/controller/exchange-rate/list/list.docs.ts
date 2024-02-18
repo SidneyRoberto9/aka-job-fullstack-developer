@@ -10,8 +10,6 @@ export const listDocs = {
       properties: {
         currency: { type: 'string', description: 'Currency to filter quotations', default: 'USD' },
         page: { type: 'integer', description: 'Page number for pagination', default: 1 },
-        to: { type: 'string', format: 'date', description: 'Date for filtering quotations' },
-        from: { type: 'string', format: 'date', description: 'Date for filtering quotations' },
       },
     },
   },
