@@ -1,7 +1,7 @@
 # Desafio Fullstack: Cotação do Dólar
 
 <h1 align="center">
-  <img src="./assets/aka.svg" alt="AKA" width="120">
+  <img src="https://raw.githubusercontent.com/akasoft-br/aka-job-fullstack-developer/5bdba1fffa9d204513ab0293c93bab5a7be0bd8e/assets/aka.svg" alt="AKA" width="120">
 </h1>
 <p align="center">AKASOFT
 FULL STACK DEVELOPER</p>
@@ -9,10 +9,15 @@ FULL STACK DEVELOPER</p>
 
 </p>
 
+## Sobre
+
+Em cada diretório contem um readme com as instruções de como rodar o projeto.
+
+Sobre o layout utilizado, o esboço base esta diponível em [excalidraw](https://excalidraw.com/#json=LKzKJ5v8iV1jnDyaNyrIW,_8v2vwQakbmCoQiIJcPXEg), e a api utilizada para cotação do dólar é a [Awesome API](https://docs.awesomeapi.com.br/api-de-moedas).
+
 ## Instruções:
 
 Você deverá criar um fork deste projeto, e desenvolver em cima do seu fork. Use o README principal do seu repositório para nos contar como foi resolver seu teste, as decisões tomadas, como você organizou e separou seu código, e principalmente as instruções de como rodar seu projeto, e se você conseguir explicar para ele como fazer isso, você já começou bem!
-
 
 **Objetivo**: Avaliar os conhecimentos do candidato em tecnologias frontend e backend, com foco em:
 
@@ -37,9 +42,10 @@ Você deverá criar um fork deste projeto, e desenvolver em cima do seu fork. Us
 **Backend**:
 
 **API RESTful para**:
-  - Autenticação de usuários.
-  - Consulta de cotações do dólar.
-  - Cálculo de médias, máximas e mínimas.
+
+- Autenticação de usuários.
+- Consulta de cotações do dólar.
+- Cálculo de médias, máximas e mínimas.
 - Serviço de background que verifica a cotação do dólar a cada minuto e registrar as informações no banco de dados.
 - Utilização de criptografia para senhas.
 - Documentação de sua API utilizando OpenAPI 3.0+
@@ -54,6 +60,7 @@ Você deverá criar um fork deste projeto, e desenvolver em cima do seu fork. Us
 - **Gráficos**: Chart.js (ou similar)
 
 ### **O que nos impressionaria**:
+
 - Implementar cache para otimizar o desempenho da aplicação.
 - Testar a aplicação com Jest e Cypress.
 - Ver o código rodando live (Bucket estático S3, Heroku, Railway, Vercel)
@@ -74,17 +81,12 @@ Você deverá criar um fork deste projeto, e desenvolver em cima do seu fork. Us
 - Adaptação mobile (layout responsivo)
 - Componentização e extensibilidade dos componentes Typescript.
 
-
 ## **FAQ**
 
-*Como devo fazer a entrega do meu desafio?*
+_Como devo fazer a entrega do meu desafio?_
+
 - Envie o link do seu repositório de código particular para contato@akasoft.com.br com o assunto: "AKASOFT - DESAFIO FULLSTACK - **:SEU NOME:**"
 
-*Se eu tiver alguma dúvida?*
+_Se eu tiver alguma dúvida?_
+
 - Entre em contato com nosso time ou pelo contato@akasoft.com.br
-
-
-
-
-
-
