@@ -1,4 +1,5 @@
 export interface Pagination {
   page: number;
-  date?: string;
+  to?: string;
+  from?: string;
 }
