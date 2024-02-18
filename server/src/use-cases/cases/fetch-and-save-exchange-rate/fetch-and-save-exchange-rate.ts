@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import dayjs from 'dayjs';
 import axios, { AxiosError } from 'axios';
 
 import { convertActualDateToLocale } from '@/util/convert-actual-date-to-locale';
@@ -14,17 +15,16 @@ export class FetchAndSaveExchangeRateUseCase {
 
   async execute(app: FastifyInstance) {
     try {
-      const now = dayjsInstance().tz('America/Sao_Paulo');
+      const now = dayjs();
       const currentDay = now.day();
-
-      const { hour, iso } = convertActualDateToLocale();
+      const currentHour = now.hour();
 
       if (currentDay === 0 || currentDay === 6) {
         app.log.info('The stock exchange is closed.');
         return;
       }
 
-      if (hour < 9 || hour >= 17) {
+      if (currentHour < 9 || currentHour >= 17) {
         app.log.info('The stock exchange is closed.');
         return;
       }
@@ -39,8 +39,6 @@ export class FetchAndSaveExchangeRateUseCase {
         high: parseFloat(data.USDBRL.high),
         low: parseFloat(data.USDBRL.low),
         value: Number(valueAvgFromAskAndBid.toFixed(4)),
-        created_at: iso,
-        updated_at: iso,
       });
     } catch (error) {
       if (error instanceof AxiosError) {
