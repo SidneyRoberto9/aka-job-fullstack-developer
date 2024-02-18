@@ -10,7 +10,7 @@ const listBodySchema = z.object({
 });
 
 export async function list(request: FastifyRequest, reply: FastifyReply) {
-  request.log.info('GET /exchange-rate');
+  request.log.info('POST /exchange-rate');
 
   const { page, to, from } = listBodySchema.parse(request.body);
 
