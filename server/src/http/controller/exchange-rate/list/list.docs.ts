@@ -9,18 +9,8 @@ export const listDocs = {
       type: 'object',
       properties: {
         page: { type: 'integer', description: 'Page number for pagination', default: 1 },
-        to: {
-          type: 'string',
-          format: 'date',
-          description: 'Date for filtering quotations',
-          default: 'optional (remove this line if not use)',
-        },
-        from: {
-          type: 'string',
-          format: 'date',
-          description: 'Date for filtering quotations',
-          default: 'optional (remove this line if not use)',
-        },
+        to: { type: 'string', format: 'date', description: 'Date for filtering quotations' },
+        from: { type: 'string', format: 'date', description: 'Date for filtering quotations' },
       },
     },
   },
