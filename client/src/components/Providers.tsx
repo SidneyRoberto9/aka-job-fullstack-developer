@@ -1,16 +1,19 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
+import { ThemeProviderProps } from 'next-themes/dist/types';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { SessionProvider } from 'next-auth/react';
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
-export async function NextAuthSessionProvider({ children }: PropsWithChildren) {
+export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SessionProvider>{children}</SessionProvider>
-    </QueryClientProvider>
+    <NextThemesProvider {...props}>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider>{children}</SessionProvider>
+      </QueryClientProvider>
+    </NextThemesProvider>
   );
 }

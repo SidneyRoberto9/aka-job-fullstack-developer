@@ -9,7 +9,7 @@ interface WidgetProps {
 
 export function Widget({ name, value }: WidgetProps) {
   return (
-    <div className="w-[95%] h-32 sm:h-full rounded-lg shadow-md m-2 bg-white/30 select-none">
+    <div className="w-[95%] h-32 sm:h-full rounded-lg shadow-md m-2 bg-white/30 dark:bg-slate-100/30 select-none text-black dark:text-slate-100">
       <div className="w-full h-full flex flex-col items-center justify-center">
         <div>
           <span className="text-lg">{name}</span>

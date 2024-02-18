@@ -71,7 +71,7 @@ export function LoginForm() {
       <Button
         type="submit"
         disabled={isLoading}
-        className="text-center w-full bg-black text-xl font-extralight"
+        className="text-center w-full bg-black text-xl font-extralight dark:bg-slate-100 dark:hover:bg-slate-100/50"
       >
         Sign In
       </Button>

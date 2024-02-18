@@ -2,6 +2,7 @@
 import { set } from 'zod';
 import { Line } from 'react-chartjs-2';
 import React, { useState } from 'react';
+import { useTheme } from 'next-themes';
 import dayjs from 'dayjs';
 import {
   Tooltip,
@@ -45,15 +46,22 @@ const chartOptions = {
 };
 
 export function Chart({ variation }: ChartProps) {
+  const { theme } = useTheme();
+
+  const chartColor = {
+    primary: theme === 'dark' ? '#333333' : '#6b7280',
+    secondary: theme === 'dark' ? '#7f7f7f' : '#e5e7eb',
+  };
+
   const [chartData, setChartData] = useState({
     labels: variation.map((data) => dayjs(data.createdAt).format('DD/MM/YYYY HH:mm')),
     datasets: [
       {
         label: 'Price',
         data: variation.map((data) => data.value),
-        borderColor: '#6b7280',
+        borderColor: chartColor.primary,
         borderWidth: 3,
-        pointBorderColor: '#6b7280',
+        pointBorderColor: chartColor.primary,
         pointBorderWidth: 3,
         tension: 0.5,
         fill: true,
@@ -63,8 +71,8 @@ export function Chart({ variation }: ChartProps) {
         backgroundColor: (context: any) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-          gradient.addColorStop(0, '#6b7280');
-          gradient.addColorStop(1, '#e5e7eb');
+          gradient.addColorStop(0, chartColor.primary);
+          gradient.addColorStop(1, chartColor.secondary);
           return gradient;
         },
       },
@@ -72,7 +80,7 @@ export function Chart({ variation }: ChartProps) {
   });
 
   return (
-    <div className="w-auto h-auto sm:w-3/4 2xl:h-[500px] m-2 p-5 bg-white/30 rounded-lg shadow-md cursor-pointer ">
+    <div className="w-auto h-auto sm:w-3/4 2xl:h-[500px] m-2 p-5 dark:bg-slate-100/30 bg-white/30 rounded-lg shadow-md cursor-pointer ">
       <Line data={chartData} options={chartOptions as any} />
     </div>
   );

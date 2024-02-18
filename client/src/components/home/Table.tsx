@@ -168,7 +168,7 @@ export function DataTable({ token }: DataTableProps) {
   useEffect(() => setContent(data), [data]);
 
   return (
-    <div className="w-full px-4 bg-white/30 rounded-lg shadow-md">
+    <div className="w-full px-4 bg-white/30 dark:bg-slate-100/30 rounded-lg shadow-md">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-center gap-2 py-4 max-md:flex-col"
@@ -214,7 +214,7 @@ export function DataTable({ token }: DataTableProps) {
             />
           </PopoverContent>
         </Popover>
-        <div className="flex items-center gap-2 w-[450px] max-md:flex-col max-md:w-full">
+        <div className="flex items-center gap-2 w-[900px] max-md:flex-col max-md:w-full">
           <FormField errorName={errors.hour} errorMessage={errors.hour?.message}>
             <Input type="number" placeholder="Hour" {...register('hour')} />
           </FormField>
@@ -279,7 +279,7 @@ export function DataTable({ token }: DataTableProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="flex-1 text-sm text-muted-foreground dark:text-slate-100 ml-2">
           {pageIndex} of {Math.ceil(content.total / 10)} row(s).
         </div>
         <div className="space-x-2">

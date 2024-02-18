@@ -86,25 +86,19 @@ export function RegisterForm() {
           <Input type="name" placeholder="Name" {...register('name')} />
         </FormField>
 
-        <div className="w-full h-16">
+        <FormField errorName={errors.email} errorMessage={errors.email?.message}>
           <Input type="email" placeholder="Email" {...register('email')} />
-          {errors.email && (
-            <span className="text-red-500 text-xs p-0 px-2 m-0">{errors.email.message}</span>
-          )}
-        </div>
+        </FormField>
 
-        <div className="w-full h-16">
+        <FormField errorName={errors.password} errorMessage={errors.password?.message}>
           <PasswordInput type="password" placeholder="Password" {...register('password')} />
-          {errors.password && (
-            <span className="text-red-500 text-xs p-0 px-2 m-0">{errors.password.message}</span>
-          )}
-        </div>
+        </FormField>
       </div>
 
       <Button
         type="submit"
         disabled={isLoading}
-        className="text-center w-full bg-black text-xl font-extralight"
+        className="text-center w-full bg-black text-xl font-extralight dark:bg-slate-100 dark:hover:bg-slate-100/50"
       >
         Sign Up
       </Button>

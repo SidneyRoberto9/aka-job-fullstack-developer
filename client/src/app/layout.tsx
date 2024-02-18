@@ -6,7 +6,7 @@ import { PropsWithChildren } from 'react';
 import { Roboto } from 'next/font/google';
 import Favicon from '/public/favicon.ico';
 
-import { NextAuthSessionProvider } from '@/components/Providers';
+import { Providers } from '@/components/Providers';
 import { Toaster } from '@/components/ui/sonner';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '500', '700'] });
@@ -21,7 +21,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+        <Providers attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          {children}
+        </Providers>
         <Toaster />
       </body>
     </html>

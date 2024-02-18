@@ -54,6 +54,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-slate-100 text-foreground min-h-screen antialiased;
+    @apply bg-slate-100 text-foreground min-h-screen antialiased dark:bg-background;
   }
 }

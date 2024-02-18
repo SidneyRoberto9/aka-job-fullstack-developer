@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { LogIn } from 'lucide-react';
@@ -19,8 +18,8 @@ export function SignOutButton() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="default" className="px-3 text-center" onClick={() => handleSignOut()}>
-            <LogIn size={25} />
+          <Button variant="outline" size="icon" onClick={() => handleSignOut()}>
+            <LogIn size={20} />
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom">

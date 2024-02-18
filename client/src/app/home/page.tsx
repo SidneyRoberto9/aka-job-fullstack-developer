@@ -23,7 +23,7 @@ export default async function Page() {
     <article className="w-full max-w-7xl overflow-hidden">
       <section className="w-full">
         <Header user={session?.user} />
-        <hr className="border-b border-black opacity-10 w-full m-2" />
+        <hr className="border-b border-black dark:border-white opacity-10 w-full m-2" />
       </section>
 
       {exchangeRateInfo && exchangeRateVariation ? (
