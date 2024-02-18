@@ -3,3 +3,8 @@ export interface Pagination {
   to?: string;
   from?: string;
 }
+
+export interface DateFilter {
+  to?: string;
+  from?: string;
+}

@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
 import { prisma } from '@/lib/prisma';
-import { Pagination } from '@/@Types/pagination';
+import { Pagination, DateFilter } from '@/@Types/pagination';
 
 export class PrismaExchangeRateRepository implements ExchangeRateRepository {
   async save(data: Prisma.ExchangeRateCreateInput) {
@@ -68,5 +68,23 @@ export class PrismaExchangeRateRepository implements ExchangeRateRepository {
 
   async count() {
     return await prisma.exchangeRate.count();
+  }
+
+  async countWithFilter({ to, from }: DateFilter) {
+    if ((to === undefined && from === undefined) || (to === '' && from === '')) {
+      return await prisma.exchangeRate.count();
+    }
+
+    const fromDate = new Date(from!);
+    const toDate = new Date(to!);
+
+    return await prisma.exchangeRate.count({
+      where: {
+        created_at: {
+          gte: fromDate,
+          lt: toDate,
+        },
+      },
+    });
   }
 }

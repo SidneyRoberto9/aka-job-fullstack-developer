@@ -30,9 +30,12 @@ export class FetchExchangeRateUseCase {
       from,
     });
 
-    const total = await this.exchangeRateRepository.count();
+    const total = await this.exchangeRateRepository.countWithFilter({
+      to,
+      from,
+    });
 
-    const hasNext = 10 * page <= total;
+    const hasNext = 10 * page <= data.length;
 
     return {
       total,
