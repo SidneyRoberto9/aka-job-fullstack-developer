@@ -1,5 +1,3 @@
-import { ExchangeRate } from '@prisma/client';
-import { NotFoundError } from '@/use-cases/errors/not-found-error';
 import {
   ExchangeRateFormattedDate,
   toExchangeRateFormattedDate,
