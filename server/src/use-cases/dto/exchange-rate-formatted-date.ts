@@ -7,6 +7,7 @@ export interface ExchangeRateFormattedDate {
   ask: number;
   high: number;
   low: number;
+  currency: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -19,6 +20,7 @@ export function toExchangeRateFormattedDate(exchangeRate: ExchangeRate): Exchang
     ask: exchangeRate.ask,
     high: exchangeRate.high,
     low: exchangeRate.low,
+    currency: exchangeRate.currency,
     createdAt: exchangeRate.created_at.toString(),
     updatedAt: exchangeRate.updated_at.toString(),
   };

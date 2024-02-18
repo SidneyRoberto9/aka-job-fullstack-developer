@@ -8,7 +8,7 @@ import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository'
 import { dayjsInstance } from '@/lib/dayjs';
 import { FetchFromExternalApiResponse } from '@/@Types/external-api';
 
-const exchangeRateApiUrl = 'https://economia.awesomeapi.com.br/json/last/USD-BRL';
+const exchangeRateApiUrl = 'https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,JPY-BRL';
 
 export class FetchAndSaveExchangeRateUseCase {
   constructor(private exchangeRateRepository: ExchangeRateRepository) {}
@@ -34,14 +34,40 @@ export class FetchAndSaveExchangeRateUseCase {
 
       const { data } = await axios.get<FetchFromExternalApiResponse>(exchangeRateApiUrl);
 
-      const valueAvgFromAskAndBid = (parseFloat(data.USDBRL.ask) + parseFloat(data.USDBRL.bid)) / 2;
+      const USD = data.USDBRL;
+
+      const valueAvgFromAskAndBidUSD = (parseFloat(USD.ask) + parseFloat(USD.bid)) / 2;
 
       await this.exchangeRateRepository.save({
-        ask: parseFloat(data.USDBRL.ask),
-        bid: parseFloat(data.USDBRL.bid),
-        high: parseFloat(data.USDBRL.high),
-        low: parseFloat(data.USDBRL.low),
-        value: Number(valueAvgFromAskAndBid.toFixed(4)),
+        ask: parseFloat(USD.ask),
+        bid: parseFloat(USD.bid),
+        high: parseFloat(USD.high),
+        low: parseFloat(USD.low),
+        value: Number(valueAvgFromAskAndBidUSD.toFixed(4)),
+      });
+
+      const EUR = data.EURBRL;
+
+      const valueAvgFromAskAndBidEUR = (parseFloat(EUR.ask) + parseFloat(EUR.bid)) / 2;
+
+      await this.exchangeRateRepository.save({
+        ask: parseFloat(EUR.ask),
+        bid: parseFloat(EUR.bid),
+        high: parseFloat(EUR.high),
+        low: parseFloat(EUR.low),
+        value: Number(valueAvgFromAskAndBidEUR.toFixed(4)),
+      });
+
+      const JPY = data.JPYBRL;
+
+      const valueAvgFromAskAndBidJPY = (parseFloat(JPY.ask) + parseFloat(JPY.bid)) / 2;
+
+      await this.exchangeRateRepository.save({
+        ask: parseFloat(JPY.ask),
+        bid: parseFloat(JPY.bid),
+        high: parseFloat(JPY.high),
+        low: parseFloat(JPY.low),
+        value: Number(valueAvgFromAskAndBidJPY.toFixed(4)),
       });
     } catch (error) {
       if (error instanceof AxiosError) {
