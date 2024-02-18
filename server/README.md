@@ -33,7 +33,7 @@ DATABASE_URL="postgresql://johndoe:randompassword@localhost:5434/mydb?schema=pub
 JWT_SECRET="randomsecret"
 ```
 
-## Uso
+## Utilização
 
 Primeiramente inicie o banco de dados com o comando abaixo:
 
