@@ -14,7 +14,11 @@ describe('Get Info Exchange Rate Use Case', () => {
   });
 
   it('should be able to not get info', async () => {
-    await expect(() => sut.execute()).rejects.toBeInstanceOf(NotFoundError);
+    await expect(() =>
+      sut.execute({
+        currency: 'USD',
+      }),
+    ).rejects.toBeInstanceOf(NotFoundError);
   });
 
   it('should be able to get info', async () => {
@@ -24,9 +28,12 @@ describe('Get Info Exchange Rate Use Case', () => {
       high: 5.5,
       low: 5.5,
       value: 5.5,
+      currency: 'USD',
     });
 
-    const { avg, max, min } = await sut.execute();
+    const { avg, max, min } = await sut.execute({
+      currency: 'USD',
+    });
 
     expect(avg).toEqual(5.5);
     expect(max).toEqual(5.5);

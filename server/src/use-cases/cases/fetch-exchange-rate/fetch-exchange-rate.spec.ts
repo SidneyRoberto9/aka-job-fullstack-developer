@@ -28,12 +28,13 @@ describe('Fetch Exchange Rate Use Case', () => {
         high: 5.5,
         low: 5.5,
         value: 5.5,
+        currency: 'USD',
         created_at: new Date(),
         updated_at: new Date(),
       });
     }
 
-    const { data, hasNext, total } = await sut.execute({ page: 1 });
+    const { data, hasNext, total } = await sut.execute({ page: 1, currency: 'USD' });
 
     expect(data).toHaveLength(10);
     expect(hasNext).toBe(true);
@@ -48,12 +49,13 @@ describe('Fetch Exchange Rate Use Case', () => {
         high: 5.5,
         low: 5.5,
         value: 5.5,
+        currency: 'USD',
         created_at: new Date(),
         updated_at: new Date(),
       });
     }
 
-    const { data, hasNext, total } = await sut.execute({ page: 2 });
+    const { data, hasNext, total } = await sut.execute({ page: 2, currency: 'USD' });
 
     expect(data).toHaveLength(2);
     expect(hasNext).toBe(false);
@@ -68,6 +70,7 @@ describe('Fetch Exchange Rate Use Case', () => {
         high: 5.5,
         low: 5.5,
         value: 5.5,
+        currency: 'USD',
         created_at: new Date(),
         updated_at: new Date(),
       });
@@ -92,6 +95,7 @@ describe('Fetch Exchange Rate Use Case', () => {
         high: 5.5,
         low: 5.5,
         value: 5.5,
+        currency: 'USD',
         created_at: new Date(),
         updated_at: new Date(),
       });
@@ -103,11 +107,13 @@ describe('Fetch Exchange Rate Use Case', () => {
       high: 5.5,
       low: 5.5,
       value: 5.5,
+      currency: 'USD',
       created_at: new Date('2022-09-01T03:30:00Z'),
       updated_at: new Date('2022-09-01T03:30:00Z'),
     });
 
     const { data, hasNext, total } = await sut.execute({
+      currency: 'USD',
       page: 1,
       to: '2022-09-01T03:00:00Z',
       from: '2022-09-01T04:00:00Z',

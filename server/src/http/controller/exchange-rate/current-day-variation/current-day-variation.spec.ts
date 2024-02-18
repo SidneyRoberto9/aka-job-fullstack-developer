@@ -34,6 +34,7 @@ describe('Current Day Variation (e2e)', () => {
           high: 5.5,
           low: 5.5,
           value: 5.5,
+          currency: 'USD',
         },
       });
     }
@@ -52,6 +53,7 @@ describe('Current Day Variation (e2e)', () => {
           high: 5.5,
           low: 5.5,
           value: 5.5,
+          currency: 'USD',
         }),
       ]),
     });

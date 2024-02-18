@@ -24,6 +24,7 @@ describe('Exchange Rate Info (e2e)', () => {
         high: 5.5,
         low: 5.5,
         value: 5.5,
+        currency: 'USD',
       },
     });
 

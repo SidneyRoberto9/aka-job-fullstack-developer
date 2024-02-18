@@ -19,6 +19,7 @@ describe('Get Variation in Current Day Use Case', () => {
       high: 5.5,
       low: 5.5,
       value: 5.5,
+      currency: 'USD',
       created_at: new Date('2022-09-01T03:00:00Z'),
       updated_at: new Date('2022-09-01T03:00:00Z'),
     });
@@ -30,12 +31,15 @@ describe('Get Variation in Current Day Use Case', () => {
         high: 5.5,
         low: 5.5,
         value: 5.5,
+        currency: 'USD',
         created_at: new Date(),
         updated_at: new Date(),
       });
     }
 
-    const { exchangeRate } = await sut.execute();
+    const { exchangeRate } = await sut.execute({
+      currency: 'USD',
+    });
 
     expect(exchangeRate).toHaveLength(5);
   });
@@ -51,7 +55,9 @@ describe('Get Variation in Current Day Use Case', () => {
       updated_at: new Date('2022-09-01T03:00:00Z'),
     });
 
-    const { exchangeRate } = await sut.execute();
+    const { exchangeRate } = await sut.execute({
+      currency: 'USD',
+    });
 
     expect(exchangeRate).toHaveLength(0);
   });
