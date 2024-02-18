@@ -9,9 +9,9 @@ export async function currentDayVariation(request: FastifyRequest, reply: Fastif
   try {
     const getVariationInCurrentDayUseCase = makeGetVariationExchangeRateUseCase();
 
-    const data = await getVariationInCurrentDayUseCase.execute();
+    const { exchangeRate } = await getVariationInCurrentDayUseCase.execute();
 
-    return reply.status(200).send({ data });
+    return reply.status(200).send({ data: exchangeRate });
   } catch (error) {
     if (error instanceof NotFoundError) {
       return reply.status(404).send({ message: error.message });
