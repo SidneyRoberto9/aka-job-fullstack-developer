@@ -46,6 +46,12 @@ export default async function Page() {
       ) : (
         <LoadingSpinner />
       )}
+
+      <section className="w-full select-none">
+        <span className="flex items-center justify-center m-4">
+          {`© ${new Date().getFullYear()} Sidney Roberto`}{' '}
+        </span>
+      </section>
     </article>
   );
 }

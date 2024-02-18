@@ -42,8 +42,8 @@ interface DataTableProps {
 interface filterDate {
   from: Date;
   to: Date;
-  hour: number;
-  minute: number;
+  hour: string;
+  minute: string;
 }
 
 const filterSchema = z.object({
@@ -82,11 +82,14 @@ async function getData(pageIndex: number, token: string, filterDate: DateRange) 
 }
 
 export function DataTable({ token }: DataTableProps) {
+  const currentDate = new Date();
+  const currentDatePlus3Days = addDays(currentDate, 3);
+
   const [pageIndex, setPageIndex] = useState(1);
   const [filterDate, setFilterDate] = useState<DateRange>({} as DateRange);
   const [date, setDate] = useState<DateRange>({
-    from: new Date(),
-    to: addDays(new Date(), 3),
+    from: currentDate,
+    to: currentDatePlus3Days,
   });
   const [content, setContent] = useState<ExchangeRateList>({
     total: 0,
@@ -98,14 +101,15 @@ export function DataTable({ token }: DataTableProps) {
     register,
     setValue,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(filterSchema),
     defaultValues: {
       from: date.from!,
       to: date.to!,
-      hour: 1,
-      minute: 1,
+      hour: '',
+      minute: '',
     },
   });
 
@@ -128,27 +132,25 @@ export function DataTable({ token }: DataTableProps) {
   });
 
   const onSubmit = (data: filterDate) => {
+    const hour = Number(data.hour) - 1;
+    const minute = Number(data.minute) - 1;
+
     setFilterDate({
-      from: dayjs(data.from)
-        .set('hour', data.hour - 1)
-        .set('minute', data.minute - 1)
-        .toDate(),
-      to: dayjs(data.to)
-        .set('hour', data.hour - 1)
-        .set('minute', data.minute - 1)
-        .toDate(),
+      from: dayjs(data.from).set('hour', hour).set('minute', minute).toDate(),
+      to: dayjs(data.to).set('hour', hour).set('minute', minute).toDate(),
     });
     setPageIndex(1);
     table.resetPageIndex();
   };
 
   const handleClearFilter = () => {
-    setValue('from', new Date());
-    setValue('to', new Date());
-    setValue('hour', 1);
-    setValue('minute', 1);
-    setDate({ from: new Date(), to: new Date() });
+    setValue('from', currentDate);
+    setValue('to', currentDatePlus3Days);
+    setValue('hour', '');
+    setValue('minute', '');
+    setDate({ from: currentDate, to: currentDate });
     setFilterDate({} as DateRange);
+    clearErrors();
     setPageIndex(1);
     table.resetPageIndex();
   };
@@ -167,7 +169,10 @@ export function DataTable({ token }: DataTableProps) {
 
   return (
     <div className="w-full px-4 bg-white/30 rounded-lg shadow-md">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 py-4 ">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex items-center gap-2 py-4 max-md:flex-col"
+      >
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -175,7 +180,7 @@ export function DataTable({ token }: DataTableProps) {
               size="lg"
               variant={'outline'}
               className={cn(
-                'w-[300px] justify-start text-left font-normal mb-6',
+                'w-[300px] justify-start text-left font-normal mb-6 max-md:w-full',
                 !date && 'text-muted-foreground',
               )}
             >
@@ -209,30 +214,35 @@ export function DataTable({ token }: DataTableProps) {
             />
           </PopoverContent>
         </Popover>
-        <div className="flex items-center gap-2 w-[450px]">
+        <div className="flex items-center gap-2 w-[450px] max-md:flex-col max-md:w-full">
           <FormField errorName={errors.hour} errorMessage={errors.hour?.message}>
-            <Input type="number" defaultValue={1} placeholder="Hour" {...register('hour')} />
+            <Input type="number" placeholder="Hour" {...register('hour')} />
           </FormField>
-          <span className="mb-6">:</span>
+          <span className="mb-6 max-md:hidden">:</span>
           <FormField errorName={errors.minute} errorMessage={errors.minute?.message}>
-            <Input type="number" defaultValue={1} placeholder="Minutes" {...register('minute')} />
+            <Input type="number" placeholder="Minutes" {...register('minute')} />
           </FormField>
         </div>
-        <Button
-          type="button"
-          variant={'outline'}
-          onClick={handleClearFilter}
-          className="flex items-center justify-center gap-2 mb-6"
-        >
-          <ListRestart size={16} />
-          Reset
-        </Button>
-        <Button type="submit" className="flex items-center justify-center gap-2 mb-6">
-          <Search size={16} />
-          Search
-        </Button>
+        <div className="flex items-center gap-2 w-full max-md:gap-4">
+          <Button
+            type="button"
+            variant={'outline'}
+            onClick={handleClearFilter}
+            className="flex items-center justify-center gap-2 mb-6 max-md:w-full max-md:mb-2"
+          >
+            <ListRestart size={16} />
+            Reset
+          </Button>
+          <Button
+            type="submit"
+            className="flex items-center justify-center gap-2 mb-6 max-md:w-full max-md:mb-2"
+          >
+            <Search size={16} />
+            Search
+          </Button>
+        </div>
       </form>
-      <div className="rounded-md border h-[575px]">
+      <div className="rounded-md border h-[575px] max-md:h-[780px]">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
