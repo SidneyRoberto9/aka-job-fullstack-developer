@@ -1,5 +1,7 @@
 export interface FetchFromExternalApiResponse {
   USDBRL: IExchangeData;
+  EURBRL: IExchangeData;
+  JPYBRL: IExchangeData;
 }
 
 export interface IExchangeData {

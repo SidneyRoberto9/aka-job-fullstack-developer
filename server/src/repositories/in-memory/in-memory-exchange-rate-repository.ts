@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { Prisma, ExchangeRate } from '@prisma/client';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
 import { Pagination, DateFilter } from '@/@Types/pagination';
+import { ICurrency } from '@/@Types/currency';
 
 export class InMemoryExchangeRateRepository implements ExchangeRateRepository {
   public items: ExchangeRate[] = [];
@@ -15,6 +16,7 @@ export class InMemoryExchangeRateRepository implements ExchangeRateRepository {
       high: data.high,
       low: data.low,
       value: data.value,
+      currency: data.currency as ICurrency,
       created_at: (data.created_at as Date) || new Date(),
       updated_at: (data.created_at as Date) || new Date(),
     };
@@ -24,31 +26,34 @@ export class InMemoryExchangeRateRepository implements ExchangeRateRepository {
     return exchangeRate;
   }
 
-  async findMostRecent() {
-    const exchangeRates = this.items.sort(
-      (a, b) => b.created_at.getTime() - a.created_at.getTime(),
-    );
+  async findMostRecent(currency: ICurrency) {
+    const exchangeRates = this.items
+      .filter((item) => item.currency === currency)
+      .sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
 
     return exchangeRates[0];
   }
 
-  async findByCurrentDay() {
+  async findByCurrentDay(currency: ICurrency) {
     const currentDate = new Date();
 
-    return this.items.filter((item) => {
-      const itemDate = new Date(item.created_at);
-      return (
-        itemDate.getDate() === currentDate.getDate() &&
-        itemDate.getMonth() === currentDate.getMonth() &&
-        itemDate.getFullYear() === currentDate.getFullYear()
-      );
-    });
+    return this.items
+      .filter((item) => item.currency === currency)
+      .filter((item) => {
+        const itemDate = new Date(item.created_at);
+        return (
+          itemDate.getDate() === currentDate.getDate() &&
+          itemDate.getMonth() === currentDate.getMonth() &&
+          itemDate.getFullYear() === currentDate.getFullYear()
+        );
+      });
   }
 
-  async fetchExchangeRate({ page, to = '', from = '' }: Pagination) {
+  async fetchExchangeRate(currency: ICurrency, { page, to = '', from = '' }: Pagination) {
     if ((to === undefined && from === undefined) || (to === '' && from === '')) {
       return this.items
         .sort((a, b) => b.created_at.getTime() - a.created_at.getTime())
+        .filter((item) => item.currency === currency)
         .slice((page - 1) * 10, page * 10);
     }
 
@@ -57,23 +62,25 @@ export class InMemoryExchangeRateRepository implements ExchangeRateRepository {
 
     return this.items
       .filter((item) => item.created_at >= fromDate && item.created_at <= toDate)
+      .filter((item) => item.currency === currency)
       .sort((a, b) => b.created_at.getTime() - a.created_at.getTime())
       .slice((page - 1) * 10, page * 10);
   }
 
-  async countWithFilter({ to = '', from = '' }: DateFilter) {
+  async countWithFilter(currency: ICurrency, { to = '', from = '' }: DateFilter) {
     if ((to === undefined && from === undefined) || (to === '' && from === '')) {
-      return this.items.length;
+      return this.items.filter((item) => item.currency === currency).length;
     }
 
     const fromDate = new Date(to);
     const toDate = new Date(from);
 
-    return this.items.filter((item) => item.created_at >= fromDate && item.created_at <= toDate)
-      .length;
+    return this.items
+      .filter((item) => item.created_at >= fromDate && item.created_at <= toDate)
+      .filter((item) => item.currency === currency).length;
   }
 
-  async count() {
-    return this.items.length;
+  async count(currency: ICurrency) {
+    return this.items.filter((item) => item.currency === currency).length;
   }
 }
