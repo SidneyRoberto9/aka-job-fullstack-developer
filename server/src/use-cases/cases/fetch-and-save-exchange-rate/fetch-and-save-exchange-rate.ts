@@ -16,6 +16,8 @@ export class FetchAndSaveExchangeRateUseCase {
   async execute(app: FastifyInstance) {
     try {
       const now = dayjs();
+      //disabled for populate the database
+      /*
       const currentDay = now.day();
       const currentHour = now.hour();
 
@@ -28,6 +30,7 @@ export class FetchAndSaveExchangeRateUseCase {
         app.log.info('The stock exchange is closed.');
         return;
       }
+      */
 
       const { data } = await axios.get<FetchFromExternalApiResponse>(exchangeRateApiUrl);
 
