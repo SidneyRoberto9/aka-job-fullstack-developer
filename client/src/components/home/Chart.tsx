@@ -22,6 +22,28 @@ interface ChartProps {
   variation: ExchangeRate[];
 }
 
+const chartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    y: {
+      ticks: {
+        font: {
+          size: 12,
+          weight: 'bold',
+        },
+      },
+    },
+    x: {
+      display: false,
+    },
+  },
+};
+
 export function Chart({ variation }: ChartProps) {
   const [chartData, setChartData] = useState({
     labels: variation.map((data) => dayjs(data.createdAt).format('DD/MM/YYYY HH:mm')),
@@ -50,31 +72,8 @@ export function Chart({ variation }: ChartProps) {
   });
 
   return (
-    <div className="w-auto h-auto md:w-3/4 2xl:h-[500px] m-2 p-5 bg-white/30 rounded-lg shadow-md cursor-pointer ">
-      <Line
-        data={chartData}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-          scales: {
-            y: {
-              ticks: {
-                font: {
-                  size: 12,
-                  weight: 'bold',
-                },
-              },
-            },
-            x: {
-              display: false,
-            },
-          },
-        }}
-      />
+    <div className="w-auto h-auto sm:w-3/4 2xl:h-[500px] m-2 p-5 bg-white/30 rounded-lg shadow-md cursor-pointer ">
+      <Line data={chartData} options={chartOptions as any} />
     </div>
   );
 }
