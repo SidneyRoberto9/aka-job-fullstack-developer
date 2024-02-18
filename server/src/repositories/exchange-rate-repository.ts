@@ -5,6 +5,6 @@ export interface ExchangeRateRepository {
   save(data: Prisma.ExchangeRateCreateInput): Promise<ExchangeRate>;
   findMostRecent(): Promise<ExchangeRate | null>;
   findByCurrentDay(): Promise<ExchangeRate[]>;
-  fetchExchangeRate({ page, date }: Pagination): Promise<ExchangeRate[]>;
+  fetchExchangeRate({ page, to, from }: Pagination): Promise<ExchangeRate[]>;
   count(): Promise<number>;
 }

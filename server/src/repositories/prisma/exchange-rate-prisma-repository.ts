@@ -37,29 +37,33 @@ export class PrismaExchangeRateRepository implements ExchangeRateRepository {
     return exchangeRate;
   }
 
-  async fetchExchangeRate({ page, date }: Pagination) {
-    if (date === '') {
+  async fetchExchangeRate({ page, to, from }: Pagination) {
+    if ((to === undefined && from === undefined) || (to === '' && from === '')) {
       return await prisma.exchangeRate.findMany({
         skip: (page - 1) * 10,
         take: 10,
         orderBy: {
           created_at: 'desc',
-        },
-      });
-    } else {
-      return await prisma.exchangeRate.findMany({
-        skip: (page - 1) * 10,
-        take: 10,
-        orderBy: {
-          created_at: 'desc',
-        },
-        where: {
-          created_at: {
-            equals: date,
-          },
         },
       });
     }
+
+    const fromDate = new Date(from!);
+    const toDate = new Date(to!);
+
+    return await prisma.exchangeRate.findMany({
+      skip: (page - 1) * 10,
+      take: 10,
+      orderBy: {
+        created_at: 'desc',
+      },
+      where: {
+        created_at: {
+          gte: fromDate,
+          lt: toDate,
+        },
+      },
+    });
   }
 
   async count() {

@@ -11,7 +11,7 @@ import { currentDayVariation } from '@/http/controller/exchange-rate/current-day
 export async function exchangeRateRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJwt);
 
-  app.get('/exchange-rate/', listDocs, list);
+  app.post('/exchange-rate', listDocs, list);
   app.get('/exchange-rate/info', infoDocs, info);
   app.get('/exchange-rate/variation', currentDayVariationDocs, currentDayVariation);
 }

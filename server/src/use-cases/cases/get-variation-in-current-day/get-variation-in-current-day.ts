@@ -16,10 +16,6 @@ export class GetVariationInCurrentDayUseCase {
   async execute(): Promise<GetVariationInCurrentDayResponse> {
     const exchangeRate = await this.exchangeRateRepository.findByCurrentDay();
 
-    if (exchangeRate.length === 0) {
-      throw new NotFoundError();
-    }
-
     return {
       exchangeRate: exchangeRate.map(toExchangeRateFormattedDate),
     };

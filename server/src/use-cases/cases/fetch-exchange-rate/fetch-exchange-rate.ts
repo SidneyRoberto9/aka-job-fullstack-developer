@@ -1,15 +1,19 @@
-import { ExchangeRate } from '@prisma/client';
+import {
+  ExchangeRateFormattedDate,
+  toExchangeRateFormattedDate,
+} from '@/use-cases/dto/exchange-rate-formatted-date';
 import { ExchangeRateRepository } from '@/repositories/exchange-rate-repository';
 
 interface FetchFromExternalApiRequest {
   page: number;
-  date?: string;
+  to?: string;
+  from?: string;
 }
 
 interface FetchFromExternalApiResponse {
   total: number;
   hasNext: boolean;
-  data: ExchangeRate[];
+  data: ExchangeRateFormattedDate[];
 }
 
 export class FetchExchangeRateUseCase {
@@ -17,11 +21,13 @@ export class FetchExchangeRateUseCase {
 
   async execute({
     page,
-    date,
+    to,
+    from,
   }: FetchFromExternalApiRequest): Promise<FetchFromExternalApiResponse> {
     const data = await this.exchangeRateRepository.fetchExchangeRate({
       page,
-      date,
+      to,
+      from,
     });
 
     const total = await this.exchangeRateRepository.count();
@@ -31,7 +37,7 @@ export class FetchExchangeRateUseCase {
     return {
       total,
       hasNext,
-      data,
+      data: data.map(toExchangeRateFormattedDate),
     };
   }
 }

@@ -3,21 +3,23 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 
 import { makeFetchExchangeRateUseCase } from '@/use-cases/factories/make-fetch-exchange-rate-use-case';
 
-const listQuerySchema = z.object({
+const listBodySchema = z.object({
   page: z.coerce.number().min(1).default(1),
-  date: z.string().optional(),
+  to: z.string().optional(),
+  from: z.string().optional(),
 });
 
 export async function list(request: FastifyRequest, reply: FastifyReply) {
   request.log.info('GET /exchange-rate');
 
-  const { page, date } = listQuerySchema.parse(request.query);
+  const { page, to, from } = listBodySchema.parse(request.body);
 
   const fetchExchangeRateUseCase = makeFetchExchangeRateUseCase();
 
   const response = await fetchExchangeRateUseCase.execute({
     page,
-    date,
+    to,
+    from,
   });
 
   reply.status(200).send(response);
