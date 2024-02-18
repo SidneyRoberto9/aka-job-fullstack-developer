@@ -11,7 +11,7 @@ export async function LoadExchangeRateVariation(token: string): Promise<Exchange
       },
     });
 
-    return data.data.exchangeRate;
+    return data.data;
   } catch (error) {
     if (error instanceof AxiosError) {
       console.log(error.response);
