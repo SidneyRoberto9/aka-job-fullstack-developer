@@ -17,6 +17,7 @@ export class FetchAndSaveExchangeRateUseCase {
     try {
       const now = dayjs();
       //disabled for populate the database
+      //Some open at different times
       /*
       const currentDay = now.day();
       const currentHour = now.hour();

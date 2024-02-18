@@ -48,7 +48,9 @@ export class PrismaExchangeRateRepository implements ExchangeRateRepository {
         skip: (page - 1) * 10,
         take: 10,
         where: {
-          currency: currency,
+          currency: {
+            equals: currency,
+          },
         },
         orderBy: {
           created_at: 'desc',
@@ -62,15 +64,17 @@ export class PrismaExchangeRateRepository implements ExchangeRateRepository {
     return await prisma.exchangeRate.findMany({
       skip: (page - 1) * 10,
       take: 10,
-      orderBy: {
-        created_at: 'desc',
-      },
       where: {
-        currency: currency,
+        currency: {
+          equals: currency,
+        },
         created_at: {
           gte: fromDate,
           lt: toDate,
         },
+      },
+      orderBy: {
+        created_at: 'desc',
       },
     });
   }

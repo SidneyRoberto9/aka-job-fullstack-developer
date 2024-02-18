@@ -40,7 +40,7 @@ export class FetchExchangeRateUseCase {
       from,
     });
 
-    const hasNext = 10 * page <= data.length;
+    const hasNext = 10 * page <= total;
 
     return {
       total,
