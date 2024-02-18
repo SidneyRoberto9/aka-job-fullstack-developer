@@ -44,6 +44,7 @@ export class FetchAndSaveExchangeRateUseCase {
         high: parseFloat(USD.high),
         low: parseFloat(USD.low),
         value: Number(valueAvgFromAskAndBidUSD.toFixed(4)),
+        currency: 'USD',
       });
 
       const EUR = data.EURBRL;
@@ -56,6 +57,7 @@ export class FetchAndSaveExchangeRateUseCase {
         high: parseFloat(EUR.high),
         low: parseFloat(EUR.low),
         value: Number(valueAvgFromAskAndBidEUR.toFixed(4)),
+        currency: 'EUR',
       });
 
       const JPY = data.JPYBRL;
@@ -68,6 +70,7 @@ export class FetchAndSaveExchangeRateUseCase {
         high: parseFloat(JPY.high),
         low: parseFloat(JPY.low),
         value: Number(valueAvgFromAskAndBidJPY.toFixed(4)),
+        currency: 'JPY',
       });
     } catch (error) {
       if (error instanceof AxiosError) {
