@@ -3,6 +3,14 @@
 import { PropsWithChildren } from 'react';
 import { SessionProvider } from 'next-auth/react';
 
-export function NextAuthSessionProvider({ children }: PropsWithChildren) {
-  return <SessionProvider>{children}</SessionProvider>;
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
+export async function NextAuthSessionProvider({ children }: PropsWithChildren) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>{children}</SessionProvider>
+    </QueryClientProvider>
+  );
 }
