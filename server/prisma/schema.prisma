@@ -26,6 +26,7 @@ model ExchangeRate {
   ask        Float
   high       Float
   low        Float
+  currency   String   @default("USD")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
