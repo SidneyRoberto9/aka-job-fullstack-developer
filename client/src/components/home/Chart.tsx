@@ -60,7 +60,7 @@ function generateChartConfiguration(variation: ExchangeRate[], chartColor: Chart
         borderWidth: 3,
         pointBorderColor: chartColor.primary,
         pointBorderWidth: 3,
-        tension: 0.5,
+        tension: 0.1,
         fill: true,
         legend: {
           display: false,
