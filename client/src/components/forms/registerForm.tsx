@@ -37,6 +37,8 @@ const schema = z.object({
 export type SchemaRegisterForm = z.infer<typeof schema>;
 
 export function RegisterForm() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -45,9 +47,6 @@ export function RegisterForm() {
   } = useForm<SchemaRegisterForm>({
     resolver: zodResolver(schema),
   });
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const onSubmit = async (data: SchemaRegisterForm) => {
     setIsLoading(true);

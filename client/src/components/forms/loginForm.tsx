@@ -20,11 +20,12 @@ const schema = z.object({
 type SchemaLoginForm = z.infer<typeof schema>;
 
 export function LoginForm() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const { register, handleSubmit, setValue } = useForm<SchemaLoginForm>({
     resolver: zodResolver(schema),
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const onSubmit = async (formData: SchemaLoginForm) => {
     setIsLoading(true);

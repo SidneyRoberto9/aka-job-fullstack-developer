@@ -1,5 +1,4 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { LogIn } from 'lucide-react';
 
@@ -7,11 +6,8 @@ import { TooltipTrigger, TooltipProvider, TooltipContent, Tooltip } from '@/comp
 import { Button } from '@/components/ui/button';
 
 export function SignOutButton() {
-  const router = useRouter();
-
   const handleSignOut = async () => {
-    await signOut({ redirect: false, callbackUrl: '/' });
-    router.push('/');
+    await signOut({ redirect: true, callbackUrl: '/' });
   };
 
   return (

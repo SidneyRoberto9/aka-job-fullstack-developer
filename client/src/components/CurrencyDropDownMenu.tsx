@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { CandlestickChart } from 'lucide-react';
 
@@ -21,10 +21,13 @@ export function CurrencyDropDownMenu() {
 
   const actualCurrency = (searchParams.get('currency') as ICurrency) || 'USD';
 
-  const handleCurrencyChange = (value: ICurrency) => {
-    router.push(`/home?currency=${value}`);
-    router.refresh();
-  };
+  const handleCurrencyChange = useCallback(
+    (value: ICurrency) => {
+      router.push(`/home?currency=${value}`);
+      router.refresh();
+    },
+    [router],
+  );
 
   return (
     <DropdownMenu>

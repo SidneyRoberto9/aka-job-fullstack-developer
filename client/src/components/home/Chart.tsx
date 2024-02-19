@@ -14,7 +14,7 @@ import {
   CategoryScale,
 } from 'chart.js';
 
-import { ICurrency, ExchangeRate } from '@/@Types/exchange-rate';
+import { ExchangeRate } from '@/@Types/exchange-rate';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip, Filler);
 

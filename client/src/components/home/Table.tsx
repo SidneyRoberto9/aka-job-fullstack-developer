@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { DateRange } from 'react-day-picker';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, ListRestart, Calendar as CalendarIcon } from 'lucide-react';
 import dayjs from 'dayjs';
 import { format, addDays } from 'date-fns';
@@ -150,7 +150,7 @@ export function DataTable({ token, currency }: DataTableProps) {
     table.resetPageIndex();
   };
 
-  const handleClearFilter = () => {
+  const handleClearFilter = useCallback(() => {
     setValue('from', currentDate);
     setValue('to', currentDatePlus3Days);
     setValue('hour', '');
@@ -160,17 +160,17 @@ export function DataTable({ token, currency }: DataTableProps) {
     clearErrors();
     setPageIndex(1);
     table.resetPageIndex();
-  };
+  }, [setValue, setDate, setFilterDate, clearErrors, currentDate, currentDatePlus3Days, table]);
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     setPageIndex((prev) => prev + 1);
     table.nextPage();
-  };
+  }, [table, setPageIndex]);
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(() => {
     setPageIndex((prev) => prev - 1);
     table.previousPage();
-  };
+  }, [table, setPageIndex]);
 
   useEffect(() => setContent(data), [data]);
 
@@ -287,7 +287,7 @@ export function DataTable({ token, currency }: DataTableProps) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground dark:text-slate-100 ml-2">
-          {pageIndex} of {Math.ceil(content.total / 10)} row(s).
+          {pageIndex} of {Math.ceil(content.total / 10)}
         </div>
         <div className="space-x-2">
           <Button
