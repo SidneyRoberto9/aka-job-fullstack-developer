@@ -34,6 +34,11 @@ const chartOptions = {
       display: false,
     },
   },
+  elements: {
+    line: {
+      fill: false,
+    },
+  },
   scales: {
     y: {
       ticks: {
@@ -59,7 +64,7 @@ function generateChartConfiguration(variation: ExchangeRate[], chartColor: Chart
         borderColor: chartColor.primary,
         borderWidth: 3,
         pointBorderColor: chartColor.primary,
-        pointBorderWidth: 3,
+        pointBorderWidth: 1,
         tension: 0.1,
         fill: true,
         legend: {
