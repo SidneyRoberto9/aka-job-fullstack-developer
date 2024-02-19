@@ -24,7 +24,6 @@ export function CurrencyDropDownMenu() {
   const handleCurrencyChange = useCallback(
     (value: ICurrency) => {
       router.push(`/home?currency=${value}`);
-      router.refresh();
     },
     [router],
   );
