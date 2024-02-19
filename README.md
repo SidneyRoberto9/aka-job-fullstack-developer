@@ -15,6 +15,10 @@ Em cada diretório contem um readme com as instruções de como rodar o projeto.
 
 Sobre o layout utilizado, o esboço base esta diponível em [excalidraw](https://excalidraw.com/#json=LKzKJ5v8iV1jnDyaNyrIW,_8v2vwQakbmCoQiIJcPXEg), e a api utilizada para cotação do dólar é a [Awesome API](https://docs.awesomeapi.com.br/api-de-moedas).
 
+Projeto em produção na vercel: [Cotação do Dólar](https://aka-job-fullstack-developer.vercel.app/)
+
+Api em produção no Hugging Face: [Cotação do Dólar](https://sid933-akasoft.hf.space/api/docs)
+
 ## Instruções:
 
 Você deverá criar um fork deste projeto, e desenvolver em cima do seu fork. Use o README principal do seu repositório para nos contar como foi resolver seu teste, as decisões tomadas, como você organizou e separou seu código, e principalmente as instruções de como rodar seu projeto, e se você conseguir explicar para ele como fazer isso, você já começou bem!
